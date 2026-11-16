@@ -1,0 +1,17 @@
+{
+  "name": "EduGestion — Espace école primaire",
+  "short_name": "EduGestion",
+  "description": "Portail scolaire pour les familles et enseignants",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6fbf8",
+  "theme_color": "#39ab97",
+  "icons": [
+    {
+      "src": "/images/logo-ecole.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

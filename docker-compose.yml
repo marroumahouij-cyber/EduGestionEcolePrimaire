@@ -1,0 +1,38 @@
+# Application complète : PostgreSQL + EduGestion (interface + API) -> http://localhost:3001
+# Les données sont conservées dans le volume Docker "edugestion_pgdata" (elles survivent à l'arrêt/redémarrage).
+name: edugestion
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: edugestion
+      POSTGRES_USER: edugestion
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Définissez POSTGRES_PASSWORD dans le fichier .env}
+    volumes:
+      - edugestion_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U edugestion -d edugestion"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${APP_PORT:-3001}:3001"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 3001
+      DATABASE_URL: postgresql://edugestion:${POSTGRES_PASSWORD}@db:5432/edugestion
+      JWT_SECRET: ${JWT_SECRET:?Définissez JWT_SECRET dans le fichier .env}
+      SUPERADMIN_EMAIL: ${SUPERADMIN_EMAIL:?Définissez SUPERADMIN_EMAIL dans le fichier .env}
+      SUPERADMIN_PASSWORD: ${SUPERADMIN_PASSWORD:?Définissez SUPERADMIN_PASSWORD dans le fichier .env}
+      DEV_SEED: ${DEV_SEED:-false}
+      DEV_PASSWORD_A: ${DEV_PASSWORD_A:-EcoleA-Dev-2026}
+      DEV_PASSWORD_B: ${DEV_PASSWORD_B:-EcoleB-Dev-2026}
+volumes:
+  edugestion_pgdata:

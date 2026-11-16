@@ -1,0 +1,21 @@
+# Base PostgreSQL SEULE (mode développement : l'application tourne avec "npm run dev" dans VS Code).
+name: edugestion-db
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: edugestion
+      POSTGRES_USER: edugestion
+      POSTGRES_PASSWORD: edugestion_dev_password
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - edugestion_dev_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U edugestion -d edugestion"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+volumes:
+  edugestion_dev_pgdata:

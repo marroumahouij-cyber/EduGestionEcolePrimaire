@@ -1,0 +1,13 @@
+# Base de TEST jetable, séparée de la vraie base (port 5434, sans volume : tout est effacé à l'arrêt).
+name: edugestion-test
+services:
+  db-test:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: edugestion_test
+      POSTGRES_USER: edugestion_test
+      POSTGRES_PASSWORD: test_only_password
+    ports:
+      - "127.0.0.1:5434:5432"
+    tmpfs:
+      - /var/lib/postgresql/data

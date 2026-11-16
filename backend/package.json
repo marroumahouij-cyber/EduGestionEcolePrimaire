@@ -1,0 +1,26 @@
+{
+  "name": "edugestion-backend",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "migrate": "node scripts/migrate.js",
+    "seed:dev": "node scripts/seed-dev.js",
+    "superadmin:create": "node scripts/create-superadmin.js",
+    "password:reset": "node scripts/reset-password.js",
+    "test": "node --env-file=.env.test --test --test-concurrency=1 tests/*.test.js",
+    "check": "node --check src/app.js && node --check src/index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.6.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pdfkit": "^0.17.2",
+    "pg": "^8.16.0"
+  }
+}
